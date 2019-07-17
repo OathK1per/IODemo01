@@ -2,6 +2,9 @@ package IO06;
 
 import java.io.*;
 
+/**
+ * 写出到字节数组中，不写入到具体文件中
+ */
 public class ByteArrayOutput {
 
     /**

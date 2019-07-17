@@ -2,6 +2,9 @@ package IO05;
 
 import java.io.*;
 
+/**
+ * 字符流：Reader&Writer
+ */
 public class ReadByChar {
 
     public static void main(String[] args) {
@@ -9,7 +12,7 @@ public class ReadByChar {
         Reader rd = null;
         try {
             rd = new FileReader(file);
-            char[] array = new char[1024];
+            char[] array = new char[1024];  //char[] not byte[]
             int len = -1;
             while ((len = rd.read(array)) != -1) {
                 String result = new String(array, 0, len);

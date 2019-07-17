@@ -2,6 +2,9 @@ package IO04;
 
 import java.io.*;
 
+/**
+ * 字节流 读写
+ */
 public class Copy {
 
     public static void main(String[] args) {
@@ -15,7 +18,7 @@ public class Copy {
             is = new FileInputStream(source);
             os = new FileOutputStream(dest);
 
-            byte[] array = new byte[1024];
+            byte[] array = new byte[1024*10];
             int len = -1;
             while ((len = is.read(array)) != -1) {
                 os.write(array, 0, len);
