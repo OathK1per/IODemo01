@@ -1,0 +1,16 @@
+��)
+2.2 验证输入数据的序列化(是否成功序列化为java对象，@RequestBody 请求体中的Json内容，@PathVariable URL中的变量，@RequestParam HTTP请求参数)
+	UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
+	mockMvc.perform(post("/forums/{forumId}/register", 42L) //URL变量
+		.contentType("application/json")
+        .param("sendWelcomeMail", "true")  //请求参数
+        .content(objectMapper.writeValueAsString(user)))  //请求体
+        .andExpect(status().isOk());
+2.3 校验输入数据(后台验证，输入错误数据进行验证)
+2.4 验证controller中的逻辑正确(是否成功传入给下一层正确的数据)
+2.5 验证输出的序列化(如果输出的是请求体时，可以通过2.2中得到getResponse的值和自己期望的输出比较)
+
+3.NormalLogicTest 逻辑测试: MockBean模拟掉不是测试重点的逻辑
+
+3.1 Junit5 Characteristics Junit5的特性
+3.1.1 可使用的参数化测试：parameter，method，CSV，enum，还可

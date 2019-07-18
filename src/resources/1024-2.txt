@@ -1,0 +1,10 @@
+以定义空值和null。@ParameterizedTest can user @NullSource, @EmptySource, and @NullAndEmptySource
+3.1.2 可以自定义名字@DisplayName
+3.1.3 @enable功能能对method，class甚至是OS作用
+
+3.2 TestNG Characteristics TestNG的特性
+3.2.1 需要使用groups或者suite时，实质是整合测试，类似对逻辑串联进行测试 // before class 不再是static 方法，能够适应各种不同的group
+3.2.2 使用@dataprovider和XML注解文件进行参数化测试
+3.2.3 有依赖测试功能，可以对测试进行排序
+
+3.3 Junit4 限制：参数注解(@RunWith(Parameterized.class)&@Parameters&Return Collection)，Before和After只能是static方法

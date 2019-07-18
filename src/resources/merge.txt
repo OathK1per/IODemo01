@@ -1,0 +1,48 @@
+为什么通常test不适用spring和springboot:it hinders the “test / code / test” flow promoted by the idea of Test-Driven Development (TDD)
+started the whole application only to autowire a RegisterUseCase instance into our test.
+为什么field injection不适合test instead use constructor
+  private final UserRepository userRepository;
+  public RegisterUseCase(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+1.DataJpaTest 持久层
+1.1 使用H2数据库的好处：内存数据库，.sql文件随程序
+1.2 @DataJpaTest：运行一部分java文件，简化测试时间
+1.3 使用QueryDSL对复杂SQL拼接语句逻辑，对Tuple的List容器大小和具体数据进行断言，返回的主要有List<Tuple> 和Integer
+
+2.WebMvcTest 网络层
+实质是一个整合测试的内容，单元测试只能对逻辑单元进行测试，对HTTP请求和响应的注解无能为力
+具体步骤：
+2.1 验证HTTP请求是否匹配(包括URL，HTTP方法和请求的内容类型)
+2.2 验证输入数据的序列化(是否成功序列化为java对象，@RequestBody 请求体中的Json内容，@PathVariable URL中的变量，@RequestParam HTTP请求参数)
+	UserResource user = new UserResource("Zaphod", "zaphod@galaxy.net");
+	mockMvc.perform(post("/forums/{forumId}/register", 42L) //URL变量
+		.contentType("application/json")
+        .param("sendWelcomeMail", "true")  //请求参数
+        .content(objectMapper.writeValueAsString(user)))  //请求体
+        .andExpect(status().isOk());
+2.3 校验输入数据(后台验证，输入错误数据进行验证)
+2.4 验证controller中的逻辑正确(是否成功传入给下一层正确的数据)
+2.5 验证输出的序列化(如果输出的是请求体时，可以通过2.2中得到getResponse的值和自己期望的输出比较)
+
+3.NormalLogicTest 逻辑测试: MockBean模拟掉不是测试重点的逻辑
+
+3.1 Junit5 Characteristics Junit5的特性
+3.1.1 可使用的参数化测试：parameter，method，CSV，enum，还可以定义空值和null。@ParameterizedTest can user @NullSource, @EmptySource, and @NullAndEmptySource
+3.1.2 可以自定义名字@DisplayName
+3.1.3 @enable功能能对method，class甚至是OS作用
+
+3.2 TestNG Characteristics TestNG的特性
+3.2.1 需要使用groups或者suite时，实质是整合测试，类似对逻辑串联进行测试 // before class 不再是static 方法，能够适应各种不同的group
+3.2.2 使用@dataprovider和XML注解文件进行参数化测试
+3.2.3 有依赖测试功能，可以对测试进行排序
+
+3.3 Junit4 限制：参数注解(@RunWith(Parameterized.class)&@Parameters&Return Collection)，Before和After只能是static方法
+
+2.5 验证输出的序列化(如果输出的是请求体时，可以通过2.2中得到getResponse的值和自己期望的输出比较)
+
+3.NormalLogicTest 逻辑测试: MockBean模拟掉不是测试重点的逻辑
+
+3.1 Junit5 Characteristics Junit5的特性
+3.1.1 可使用的参数化测试：parameter，method，CSV，enum，还可

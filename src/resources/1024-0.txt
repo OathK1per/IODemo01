@@ -1,0 +1,17 @@
+为什么通常test不适用spring和springboot:it hinders the “test / code / test” flow promoted by the idea of Test-Driven Development (TDD)
+started the whole application only to autowire a RegisterUseCase instance into our test.
+为什么field injection不适合test instead use constructor
+  private final UserRepository userRepository;
+  public RegisterUseCase(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
+
+1.DataJpaTest 持久层
+1.1 使用H2数据库的好处：内存数据库，.sql文件随程序
+1.2 @DataJpaTest：运行一部分java文件，简化测试时间
+1.3 使用QueryDSL对复杂SQL拼接语句逻辑，对Tuple的List容器大小和具体数据进行断言，返回的主要有List<Tuple> 和Integer
+
+2.WebMvcTest 网络层
+实质是一个整合测试的内容，单元测试只能对逻辑单元进行测试，对HTTP请求和响应的注解无能为力
+具体步骤：
+2.1 验证HTTP请求是否匹配(包括URL，HTTP方法和请求的内容类�
